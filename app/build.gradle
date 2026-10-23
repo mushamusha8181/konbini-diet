@@ -1,0 +1,39 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.local.convenidiet'
+    compileSdk 37
+
+    defaultConfig {
+        applicationId 'com.local.convenidiet'
+        minSdk 26
+        targetSdk 37
+        versionCode 6
+        versionName '2.1.0'
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+        }
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+    implementation 'androidx.core:core:1.19.1'
+    // Bundled models: scanning works on-device without downloading ML models at runtime.
+    implementation 'com.google.mlkit:barcode-scanning:17.3.0'
+    implementation 'com.google.mlkit:text-recognition-japanese:16.0.1'
+}
