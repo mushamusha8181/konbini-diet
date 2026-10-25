@@ -1,8 +1,6 @@
 package com.local.convenidiet;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.text.InputType;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +13,8 @@ import android.widget.TextView;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import jp.mushamusha.mushinglass.MushinGlass;
 
 final class Ui {
     private Ui() {}
@@ -45,12 +45,20 @@ final class Ui {
         return dp(c, compact(c) ? compactDp : normalDp);
     }
 
+    private static void applyTextStyle(Context c, TextView v, boolean bold) {
+        MushinGlass.Config cfg = MushinGlass.config(c);
+        v.setTextColor(cfg.textColor);
+        if (MushinGlass.typeface(c) != null) {
+            v.setTypeface(MushinGlass.typeface(c), bold ? android.graphics.Typeface.BOLD : android.graphics.Typeface.NORMAL);
+        }
+        v.setIncludeFontPadding(false);
+    }
+
     static TextView title(Context c, String text) {
         TextView v = new TextView(c);
         v.setText(text);
         v.setTextSize(compact(c) ? 20 : 22);
-        v.setTextColor(Color.rgb(28, 38, 31));
-        v.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+        applyTextStyle(c, v, true);
         return v;
     }
 
@@ -58,8 +66,7 @@ final class Ui {
         TextView v = new TextView(c);
         v.setText(text);
         v.setTextSize(compact(c) ? 15 : 16);
-        v.setTextColor(Color.rgb(39, 53, 43));
-        v.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+        applyTextStyle(c, v, true);
         return v;
     }
 
@@ -68,7 +75,10 @@ final class Ui {
         v.setText(text);
         v.setTextSize(compact(c) ? 13 : 14);
         v.setLineSpacing(0, 1.12f);
-        v.setTextColor(Color.rgb(75, 84, 77));
+        MushinGlass.Config cfg = MushinGlass.config(c);
+        v.setTextColor(cfg.auxiliary);
+        if (MushinGlass.typeface(c) != null) v.setTypeface(MushinGlass.typeface(c));
+        v.setIncludeFontPadding(false);
         return v;
     }
 
@@ -79,7 +89,11 @@ final class Ui {
         e.setSingleLine(true);
         e.setMinHeight(dp(c, 48));
         e.setPadding(responsive(c, 12, 10), responsive(c, 8, 6), responsive(c, 12, 10), responsive(c, 8, 6));
-        e.setBackgroundResource(com.local.convenidiet.R.drawable.field_bg);
+        MushinGlass.Config cfg = MushinGlass.config(c);
+        e.setTextColor(cfg.textColor);
+        e.setHintTextColor(cfg.auxiliary);
+        e.setBackground(MushinGlass.glassDrawable(c, android.graphics.Color.WHITE, Math.max(42, cfg.glassOpacity - 16), 12));
+        if (MushinGlass.typeface(c) != null) e.setTypeface(MushinGlass.typeface(c));
         return e;
     }
 
@@ -92,7 +106,6 @@ final class Ui {
     static Button primaryButton(Context c, String text) {
         Button b = new Button(c);
         b.setText(text);
-        b.setTextColor(Color.WHITE);
         b.setTextSize(compact(c) ? 14 : 15);
         b.setAllCaps(false);
         b.setMinHeight(dp(c, 48));
@@ -100,7 +113,11 @@ final class Ui {
         b.setMinWidth(0);
         b.setMinimumWidth(0);
         b.setPadding(responsive(c, 12, 9), 0, responsive(c, 12, 9), 0);
-        b.setBackgroundResource(com.local.convenidiet.R.drawable.button_primary);
+        MushinGlass.Config cfg = MushinGlass.config(c);
+        b.setTextColor(cfg.textColor);
+        b.setBackground(MushinGlass.glassDrawable(c, cfg.palette.primary, Math.max(44, cfg.glassOpacity - 16), 14));
+        b.setElevation(0);
+        if (MushinGlass.typeface(c) != null) b.setTypeface(MushinGlass.typeface(c));
         return b;
     }
 
@@ -114,6 +131,11 @@ final class Ui {
         b.setMinWidth(0);
         b.setMinimumWidth(0);
         b.setPadding(responsive(c, 8, 5), 0, responsive(c, 8, 5), 0);
+        MushinGlass.Config cfg = MushinGlass.config(c);
+        b.setTextColor(cfg.textColor);
+        b.setBackground(MushinGlass.glassDrawable(c, android.graphics.Color.WHITE, Math.max(48, cfg.glassOpacity - 8), 14));
+        b.setElevation(0);
+        if (MushinGlass.typeface(c) != null) b.setTypeface(MushinGlass.typeface(c));
         return b;
     }
 
